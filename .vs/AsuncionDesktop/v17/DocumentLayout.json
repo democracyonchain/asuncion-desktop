@@ -1,0 +1,163 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\neiel\\OneDrive\\Documentos\\Codigo Fuente\\democracyonchain\\asuncion-desktop\\AsuncionDesktop\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{0618BF6E-912D-47FC-80DF-41C90762FDD0}|AsuncionDesktop\\AsuncionDesktop.csproj|C:\\Users\\neiel\\OneDrive\\Documentos\\Codigo Fuente\\democracyonchain\\asuncion-desktop\\AsuncionDesktop\\asunciondesktop\\presentation\\forms\\scanform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0618BF6E-912D-47FC-80DF-41C90762FDD0}|AsuncionDesktop\\AsuncionDesktop.csproj|solutionrelative:asunciondesktop\\presentation\\forms\\scanform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0618BF6E-912D-47FC-80DF-41C90762FDD0}|AsuncionDesktop\\AsuncionDesktop.csproj|C:\\Users\\neiel\\OneDrive\\Documentos\\Codigo Fuente\\democracyonchain\\asuncion-desktop\\AsuncionDesktop\\asunciondesktop\\presentation\\forms\\scanform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{0618BF6E-912D-47FC-80DF-41C90762FDD0}|AsuncionDesktop\\AsuncionDesktop.csproj|solutionrelative:asunciondesktop\\presentation\\forms\\scanform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0618BF6E-912D-47FC-80DF-41C90762FDD0}|AsuncionDesktop\\AsuncionDesktop.csproj|C:\\Users\\neiel\\OneDrive\\Documentos\\Codigo Fuente\\democracyonchain\\asuncion-desktop\\AsuncionDesktop\\asunciondesktop\\presentation\\forms\\scanform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0618BF6E-912D-47FC-80DF-41C90762FDD0}|AsuncionDesktop\\AsuncionDesktop.csproj|solutionrelative:asunciondesktop\\presentation\\forms\\scanform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0618BF6E-912D-47FC-80DF-41C90762FDD0}|AsuncionDesktop\\AsuncionDesktop.csproj|C:\\Users\\neiel\\OneDrive\\Documentos\\Codigo Fuente\\democracyonchain\\asuncion-desktop\\AsuncionDesktop\\asunciondesktop\\domain\\entities\\candidato.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0618BF6E-912D-47FC-80DF-41C90762FDD0}|AsuncionDesktop\\AsuncionDesktop.csproj|solutionrelative:asunciondesktop\\domain\\entities\\candidato.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0618BF6E-912D-47FC-80DF-41C90762FDD0}|AsuncionDesktop\\AsuncionDesktop.csproj|C:\\Users\\neiel\\OneDrive\\Documentos\\Codigo Fuente\\democracyonchain\\asuncion-desktop\\AsuncionDesktop\\asunciondesktop\\domain\\entities\\pagina.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0618BF6E-912D-47FC-80DF-41C90762FDD0}|AsuncionDesktop\\AsuncionDesktop.csproj|solutionrelative:asunciondesktop\\domain\\entities\\pagina.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0618BF6E-912D-47FC-80DF-41C90762FDD0}|AsuncionDesktop\\AsuncionDesktop.csproj|C:\\Users\\neiel\\OneDrive\\Documentos\\Codigo Fuente\\democracyonchain\\asuncion-desktop\\AsuncionDesktop\\asunciondesktop\\domain\\entities\\scanneddocument.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0618BF6E-912D-47FC-80DF-41C90762FDD0}|AsuncionDesktop\\AsuncionDesktop.csproj|solutionrelative:asunciondesktop\\domain\\entities\\scanneddocument.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0618BF6E-912D-47FC-80DF-41C90762FDD0}|AsuncionDesktop\\AsuncionDesktop.csproj|c:\\users\\neiel\\onedrive\\documentos\\codigo fuente\\democracyonchain\\asuncion-desktop\\asunciondesktop\\asunciondesktop\\domain\\entities\\acta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0618BF6E-912D-47FC-80DF-41C90762FDD0}|AsuncionDesktop\\AsuncionDesktop.csproj|solutionrelative:asunciondesktop\\domain\\entities\\acta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0618BF6E-912D-47FC-80DF-41C90762FDD0}|AsuncionDesktop\\AsuncionDesktop.csproj|C:\\Users\\neiel\\OneDrive\\Documentos\\Codigo Fuente\\democracyonchain\\asuncion-desktop\\AsuncionDesktop\\asunciondesktop\\domain\\entities\\authresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0618BF6E-912D-47FC-80DF-41C90762FDD0}|AsuncionDesktop\\AsuncionDesktop.csproj|solutionrelative:asunciondesktop\\domain\\entities\\authresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 245,
+          "SelectedChildIndex": 8,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Candidato.cs",
+              "DocumentMoniker": "C:\\Users\\neiel\\OneDrive\\Documentos\\Codigo Fuente\\democracyonchain\\asuncion-desktop\\AsuncionDesktop\\AsuncionDesktop\\Domain\\Entities\\Candidato.cs",
+              "RelativeDocumentMoniker": "AsuncionDesktop\\Domain\\Entities\\Candidato.cs",
+              "ToolTip": "C:\\Users\\neiel\\OneDrive\\Documentos\\Codigo Fuente\\democracyonchain\\asuncion-desktop\\AsuncionDesktop\\AsuncionDesktop\\Domain\\Entities\\Candidato.cs",
+              "RelativeToolTip": "AsuncionDesktop\\Domain\\Entities\\Candidato.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwBEAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-20T05:10:54.191Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Pagina.cs",
+              "DocumentMoniker": "C:\\Users\\neiel\\OneDrive\\Documentos\\Codigo Fuente\\democracyonchain\\asuncion-desktop\\AsuncionDesktop\\AsuncionDesktop\\Domain\\Entities\\Pagina.cs",
+              "RelativeDocumentMoniker": "AsuncionDesktop\\Domain\\Entities\\Pagina.cs",
+              "ToolTip": "C:\\Users\\neiel\\OneDrive\\Documentos\\Codigo Fuente\\democracyonchain\\asuncion-desktop\\AsuncionDesktop\\AsuncionDesktop\\Domain\\Entities\\Pagina.cs",
+              "RelativeToolTip": "AsuncionDesktop\\Domain\\Entities\\Pagina.cs",
+              "ViewState": "AQIAAAcAAAAAAAAAAAAUwBAAAAAdAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-20T04:56:34.694Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Acta.cs",
+              "DocumentMoniker": "C:\\Users\\neiel\\OneDrive\\Documentos\\Codigo Fuente\\democracyonchain\\asuncion-desktop\\AsuncionDesktop\\AsuncionDesktop\\Domain\\Entities\\Acta.cs",
+              "RelativeDocumentMoniker": "AsuncionDesktop\\Domain\\Entities\\Acta.cs",
+              "ToolTip": "C:\\Users\\neiel\\OneDrive\\Documentos\\Codigo Fuente\\democracyonchain\\asuncion-desktop\\AsuncionDesktop\\AsuncionDesktop\\Domain\\Entities\\Acta.cs",
+              "RelativeToolTip": "AsuncionDesktop\\Domain\\Entities\\Acta.cs",
+              "ViewState": "AQIAABIAAAAAAAAAAAA6wBoAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-20T04:54:47.818Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ScanForm.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\neiel\\OneDrive\\Documentos\\Codigo Fuente\\democracyonchain\\asuncion-desktop\\AsuncionDesktop\\AsuncionDesktop\\Presentation\\Forms\\ScanForm.Designer.cs",
+              "RelativeDocumentMoniker": "AsuncionDesktop\\Presentation\\Forms\\ScanForm.Designer.cs",
+              "ToolTip": "C:\\Users\\neiel\\OneDrive\\Documentos\\Codigo Fuente\\democracyonchain\\asuncion-desktop\\AsuncionDesktop\\AsuncionDesktop\\Presentation\\Forms\\ScanForm.Designer.cs",
+              "RelativeToolTip": "AsuncionDesktop\\Presentation\\Forms\\ScanForm.Designer.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-19T05:24:32.598Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "AuthResponse.cs",
+              "DocumentMoniker": "C:\\Users\\neiel\\OneDrive\\Documentos\\Codigo Fuente\\democracyonchain\\asuncion-desktop\\AsuncionDesktop\\AsuncionDesktop\\Domain\\Entities\\AuthResponse.cs",
+              "RelativeDocumentMoniker": "AsuncionDesktop\\Domain\\Entities\\AuthResponse.cs",
+              "ToolTip": "C:\\Users\\neiel\\OneDrive\\Documentos\\Codigo Fuente\\democracyonchain\\asuncion-desktop\\AsuncionDesktop\\AsuncionDesktop\\Domain\\Entities\\AuthResponse.cs",
+              "RelativeToolTip": "AsuncionDesktop\\Domain\\Entities\\AuthResponse.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-19T04:25:59.093Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ScannedDocument.cs",
+              "DocumentMoniker": "C:\\Users\\neiel\\OneDrive\\Documentos\\Codigo Fuente\\democracyonchain\\asuncion-desktop\\AsuncionDesktop\\AsuncionDesktop\\Domain\\Entities\\ScannedDocument.cs",
+              "RelativeDocumentMoniker": "AsuncionDesktop\\Domain\\Entities\\ScannedDocument.cs",
+              "ToolTip": "C:\\Users\\neiel\\OneDrive\\Documentos\\Codigo Fuente\\democracyonchain\\asuncion-desktop\\AsuncionDesktop\\AsuncionDesktop\\Domain\\Entities\\ScannedDocument.cs",
+              "RelativeToolTip": "AsuncionDesktop\\Domain\\Entities\\ScannedDocument.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-19T04:22:41.198Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ScanForm.cs",
+              "DocumentMoniker": "C:\\Users\\neiel\\OneDrive\\Documentos\\Codigo Fuente\\democracyonchain\\asuncion-desktop\\AsuncionDesktop\\AsuncionDesktop\\Presentation\\Forms\\ScanForm.cs",
+              "RelativeDocumentMoniker": "AsuncionDesktop\\Presentation\\Forms\\ScanForm.cs",
+              "ToolTip": "C:\\Users\\neiel\\OneDrive\\Documentos\\Codigo Fuente\\democracyonchain\\asuncion-desktop\\AsuncionDesktop\\AsuncionDesktop\\Presentation\\Forms\\ScanForm.cs",
+              "RelativeToolTip": "AsuncionDesktop\\Presentation\\Forms\\ScanForm.cs",
+              "ViewState": "AQIAAL8AAAAAAAAAAAAAAFgAAABCAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-10T19:03:12.794Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ScanForm.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\neiel\\OneDrive\\Documentos\\Codigo Fuente\\democracyonchain\\asuncion-desktop\\AsuncionDesktop\\AsuncionDesktop\\Presentation\\Forms\\ScanForm.cs",
+              "RelativeDocumentMoniker": "AsuncionDesktop\\Presentation\\Forms\\ScanForm.cs",
+              "ToolTip": "C:\\Users\\neiel\\OneDrive\\Documentos\\Codigo Fuente\\democracyonchain\\asuncion-desktop\\AsuncionDesktop\\AsuncionDesktop\\Presentation\\Forms\\ScanForm.cs [Dise\u00F1o]",
+              "RelativeToolTip": "AsuncionDesktop\\Presentation\\Forms\\ScanForm.cs [Dise\u00F1o]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-10T16:53:06.215Z",
+              "EditorCaption": " [Dise\u00F1o]"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
