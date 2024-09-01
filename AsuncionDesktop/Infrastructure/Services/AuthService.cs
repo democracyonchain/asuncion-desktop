@@ -4,6 +4,7 @@ using AsuncionDesktop.Domain.Entities;
 using AsuncionDesktop.Domain.Interfaces;
 using System.Threading.Tasks;
 using GraphQL;
+using System.Configuration;
 
 namespace AsuncionDesktop.Infrastructure.Services
 {
@@ -13,7 +14,8 @@ namespace AsuncionDesktop.Infrastructure.Services
 
         public AuthService()
         {
-            _client = new GraphQLHttpClient("http://localhost:3090/graphql", new NewtonsoftJsonSerializer());
+            string baseUrl = ConfigurationManager.AppSettings["ApiBaseUrl"] + "graphql";
+            _client = new GraphQLHttpClient(baseUrl, new NewtonsoftJsonSerializer());
         }
 
         public async Task<AuthResponse> LoginAsync(string username, string password)
