@@ -30,35 +30,49 @@ namespace AsuncionDesktop.Presentation.Forms
         string cortePath = string.Empty;
         string jsonPath = string.Empty;
         public List<Acta> actas = new List<Acta>();
+        private Tuple<string, ListView> currentWorkerArgument;
+
         Point referencia;
         int referenciaX = 0;
         int referenciaY = 0;
         public ScanForm()
         {
             InitializeComponent();
+            this.Shown += new System.EventHandler(this.ScanForm_Shown);
             bgwPrincipal.WorkerReportsProgress = true;
             bgwPrincipal.ProgressChanged += bgwPrincipal_ProgressChanged;
             bgwPrincipal.RunWorkerCompleted += bgwPrincipal_RunWorkerCompleted;
             InitializeDirectories();
             InitializeLoader();
-            LoadImages();
             SetIcons();
             lstActas.SmallImageList = imageList1;
+            
 
 
         }
+        private void StartFirstTask()
+        {
+            bgwPrincipal.RunWorkerAsync(new Tuple<string, ListView>(imagenPath, lstImages));
+        }
+
         private void ScanForm_Shown(object sender, EventArgs e)
         {
             if (!lstImages.IsHandleCreated)
             {
-                lstImages.CreateControl();  
+                lstImages.CreateControl();
+            }
+            if (!lstPages.IsHandleCreated)
+            {
+                lstPages.CreateControl();
             }
 
-            bgwPrincipal.RunWorkerAsync();
+            LoadImages();
+            this.Invoke(new Action(() => {               
+                UpdateCounters();
+            }));
         }
         public void InitializeDirectories()
         {
-            // Obtener la ruta base desde la configuración de la aplicación
             string basePath = ConfigurationManager.AppSettings["BasePath"];
             referenciaX = int.Parse(ConfigurationManager.AppSettings["ReferenciaX"]);
             referenciaY = int.Parse(ConfigurationManager.AppSettings["ReferenciaY"]);
@@ -103,19 +117,20 @@ namespace AsuncionDesktop.Presentation.Forms
         {
             pbProgreso.Visible = true;
             pbProgreso.Value = 0;
-            lstImages.View = View.Details; // Asegúrate de que esto está configurado
-            lstImages.Columns.Add("Nombre del Archivo",800); // Asegúrate de que las columnas están definidas
-            lstPages.View = View.Details; // Asegúrate de que esto está configurado
-            lstActas.Columns.Add("Nombre del Archivo",800);
-            bgwPrincipal.RunWorkerAsync(imagenPath);
+            lstImages.View = View.Details; 
+            lstImages.Columns.Add("Nombre del Archivo",800);
+
+            lstPages.View = View.Details;
+            lstPages.Columns.Add("Nombre del Archivo",800);
+                   
+            StartFirstTask();
         }
         public void SetIcons()
         {
             string basePath = AppDomain.CurrentDomain.BaseDirectory;
             string iconPath1 = Path.Combine(basePath, @"..\..\Recursos\create.png");
             string iconPath2 = Path.Combine(basePath, @"..\..\Recursos\complete.png");
-
-            imageList1.Images.Add(Image.FromFile(iconPath1));  // Ícono para estado inicial
+            imageList1.Images.Add(Image.FromFile(iconPath1));  
             imageList1.Images.Add(Image.FromFile(iconPath2));
         }
         #endregion
@@ -129,21 +144,51 @@ namespace AsuncionDesktop.Presentation.Forms
         #endregion
         #region User Control Events
         private void bgwPrincipal_DoWork_1(object sender, DoWorkEventArgs e)
-        {
-            string directoryPath = e.Argument as string;
-            LoadImageNamesToListView(directoryPath, lstImages, sender as BackgroundWorker);
+        {           
+            var arguments = (Tuple<string, ListView>)e.Argument;
+            string directoryPath = arguments.Item1;
+            ListView targetListView = arguments.Item2;
+
+            LoadImageNamesToListView(directoryPath, targetListView, sender as BackgroundWorker);
+            e.Result = arguments;
+
         }
 
         private void bgwPrincipal_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             pbProgreso.Value = e.ProgressPercentage;
         }
-       
 
+
+        //private void bgwPrincipal_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+       
         private void bgwPrincipal_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            pbProgreso.Visible = false;  // Ocultar la barra de progreso al finalizar
+            if (e.Error != null)
+            {
+                MessageBox.Show("Error: " + e.Error.Message);
+            }
+            else if (e.Cancelled)
+            {
+                MessageBox.Show("Operation was cancelled.");
+            }
+            else
+            {
+                // Recuperar los argumentos del resultado del evento DoWork
+                var args = (Tuple<string, ListView>)e.Result;
+                if (args.Item1 == imagenPath)
+                {
+                    // Si la primera tarea ha terminado, inicia la segunda
+                    bgwPrincipal.RunWorkerAsync(new Tuple<string, ListView>(actaPath, lstPages));
+                }
+                else
+                {
+                   // MessageBox.Show("All tasks completed.");
+                   pbProgreso.Visible = false; 
+                }
+            }
         }
+
         private void lstImages_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (lstImages.SelectedItems.Count > 0)
@@ -153,6 +198,20 @@ namespace AsuncionDesktop.Presentation.Forms
 
                 // Combinar el path de la imagen con el nombre del archivo
                 string filePath = Path.Combine(imagenPath, selectedFileName);
+
+                // Mostrar la imagen
+                ShowImagen(filePath);
+            }
+        }
+        private void lstPages_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lstPages.SelectedItems.Count > 0)
+            {
+                // Obtener el nombre del archivo del ítem seleccionado
+                string selectedFileName = lstPages.SelectedItems[0].Text;
+
+                // Combinar el path de la imagen con el nombre del archivo
+                string filePath = Path.Combine(actaPath, selectedFileName);
 
                 // Mostrar la imagen
                 ShowImagen(filePath);
@@ -173,17 +232,18 @@ namespace AsuncionDesktop.Presentation.Forms
         }
         private async void cmdProcess_Click(object sender, EventArgs e)
         {
-            pbProgreso.Visible=true;
-            pbProgreso.Maximum = lstImages.Items.Count;
-            int contador=0;
-            foreach (ListViewItem item in lstImages.Items)
-            {
+            //pbProgreso.Visible=true;
+            //pbProgreso.Maximum = lstImages.Items.Count;
+            //int contador=0;
+            //foreach (ListViewItem item in lstImages.Items)
+            //{
 
-                string imagePath = item.Text;  
-                await ProcessImage(imagePath);                
-                contador++; 
-                pbProgreso.Value = contador;
-            }
+            //    string imagePath = item.Text;  
+            //    await ProcessImage(imagePath);                
+            //    contador++; 
+            //    pbProgreso.Value = contador;
+            //}
+
             MessageBox.Show("fin");
         }
         #endregion
@@ -193,7 +253,7 @@ namespace AsuncionDesktop.Presentation.Forms
             int maxPages = GetMaxPageConfig();
             foreach (ColumnHeader column in lstActas.Columns)
             {
-                column.Width = 60;  // Establece un ancho que contribuya al desbordamiento horizontal
+                column.Width = 60;  
             }
 
 
@@ -201,86 +261,160 @@ namespace AsuncionDesktop.Presentation.Forms
             lstActas.Columns.Clear();
 
             // Añadir columnas fijas
-            lstActas.Columns.Add("Est",20); // Ajusta el tamaño según sea necesario
-            lstActas.Columns.Add("Código", 50); // Ajusta el tamaño según sea necesario
-            lstActas.Columns.Add("Seguridad", 50); // Ajusta el tamaño según sea necesario
+            lstActas.Columns.Add("Est",20); 
+            lstActas.Columns.Add("Código", 50); 
+            lstActas.Columns.Add("Seguridad", 50); 
 
             // Añadir columnas dinámicas para cada página
             for (int i = 1; i <= maxPages; i++)
             {
-                lstActas.Columns.Add("Pág " + i.ToString(), 50); // Ajusta el tamaño según sea necesario
+                lstActas.Columns.Add("Pág " + i.ToString(), 50); 
             }
 
             // Añadir columnas de total y estado
-            lstActas.Columns.Add("Total", 50); // Ajusta el tamaño según sea necesario
-            lstActas.Columns.Add("Estado", 100); // Ajusta el tamaño según sea necesario
+            lstActas.Columns.Add("Total", 50); 
+            lstActas.Columns.Add("Estado", 100); 
             lstActas.Scrollable = true;
             lstActas.View = View.Details;
-            lstActas.Width = 600;  // Establece un ancho menor para forzar el scroll si es necesario
+            lstActas.Width = 600;  
 
         }
         #endregion
         #region Business Logic
-        private void LoadImageNamesToListView(string directoryPath, ListView listView, BackgroundWorker worker)
+       
+    
+     private void LoadImageNamesToListView(string directoryPath, ListView listView, BackgroundWorker worker)
         {
             DirectoryInfo dirInfo = new DirectoryInfo(directoryPath);
             FileInfo[] files = dirInfo.GetFiles().Where(f => f.Extension.ToLower().EndsWith("tif")).ToArray();
 
-            // Lógica para cargar nombres de archivo, similar a la que proporcioné antes
             int totalFiles = files.Length;
             int processedFiles = 0;
 
             foreach (FileInfo file in files)
             {
-                ListViewItem item = new ListViewItem(file.Name);
-                if (listView.IsHandleCreated)
-                {
-                    listView.Invoke(new MethodInvoker(() => listView.Items.Add(item)));
-                }
-                else
-                {
-                    listView.Items.Add(item); // Si el handle aún no está creado, añadir el ítem directamente.
-                }
+                
+
+                string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(file.Name);
+                // Crear un nuevo ListViewItem con el nombre del archivo
+                ListViewItem item = new ListViewItem(fileNameWithoutExtension);
+
+                listView.Invoke(new MethodInvoker(() => {
+                    listView.Items.Add(item);
+                }));
 
                 processedFiles++;
                 worker.ReportProgress((processedFiles * 100) / totalFiles);
             }
-
-            MessageBox.Show("ok");
+           
         }
         private void ShowImagen(string imagePath)
         {
+            try
+            {
+                if (!imagePath.EndsWith(".tif"))
+                {
+                    imagePath += ".tif";
+                }
+                Bitmap bitmap = new Bitmap(imagePath);
+                
+                picActa.Image = bitmap;
+                picActa.SizeMode = PictureBoxSizeMode.Zoom;
+
+            }
+            catch
+            (Exception ex)
+            {
+                MessageBox.Show("Error al mostrar imagen" + ex.ToString());
+            }
             
-            Bitmap bitmap = new Bitmap(imagePath);
-            picActa.Image = bitmap;           
-            picActa.SizeMode = PictureBoxSizeMode.Zoom;
+           
         }
-        
+
         private async Task ProcessImagesAsync(string directoryPath)
         {
+            string basePath = Path.GetDirectoryName(directoryPath);
+            string actaPath = Path.Combine(basePath, "actas");
+            Directory.CreateDirectory(actaPath);
+
             var files = Directory.GetFiles(directoryPath, "*.tif");
             int totalFiles = files.Length;
             int processedFiles = 0;
             pbProgreso.Visible = true;
+
             foreach (var file in files)
             {
+                ShowImageSafely(file); 
                 string barcode = await ReadBarcodeAsync(file);
                 if (!string.IsNullOrEmpty(barcode))
                 {
+                    Acta acta = null;
+                    bool processSuccess = false;
+                    try
+                    {
+                        acta = ProcessActaData(barcode, file);
+                        processSuccess = true; 
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error processing file: " + ex.Message);
+                    }
+
+                    if (processSuccess && acta != null)
+                    {
+                        string newFileName = FormulateNewFileName(acta);
+                        string newPath = Path.Combine(actaPath, newFileName);
+
+                        // Asegurarse de liberar la imagen antes de mover el archivo
+                        picActa.Image?.Dispose();
+                        picActa.Image = null;                       
+
+                        try
+                        {
+                            //validar si el archivo existe 
+                            if ( System.IO.File.Exists(newPath))
+                                {
+                                System.IO.File.Delete(newPath);
+                            }
+                            System.IO.File.Move(file, newPath);
+                            this.Invoke(new Action(() => {
+                                UpdateActaListView(acta, newPath);
+                                UpdateCounters();
+                                RemoveItemFromListView(lstImages, file);
+                            }));
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Failed to move file: " + ex.Message);
+                        }
+                    }
+
                     this.Invoke(new Action(() =>
                     {
-                        int pagina = 0;
-                        Acta acta = ProcessActaData(barcode,file);                     
                         pbProgreso.Value = (int)((double)++processedFiles / totalFiles * 100);
                     }));
                 }
             }
+
             this.Invoke(new Action(() =>
             {
-                MessageBox.Show("Todas las imágenes han sido procesadas. Total: " + actas.Count);
+                MessageBox.Show("All images have been processed. Total: " + actas.Count);
                 pbProgreso.Visible = false;
             }));
         }
+
+        private void ShowImageSafely(string imagePath)
+        {
+            using (FileStream stream = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
+            {
+                var image = Image.FromStream(stream);
+                picActa.Image?.Dispose();  // Liberar cualquier imagen anterior
+                picActa.Image = image;     // Mostrar la nueva imagen
+                picActa.SizeMode = PictureBoxSizeMode.Zoom;
+            }
+        }
+
+
 
 
         private async Task<string> ReadBarcodeAsync(string imagePath)
@@ -321,8 +455,7 @@ namespace AsuncionDesktop.Presentation.Forms
             {
                 using (var bitmap = new Bitmap(imagePath))
                 {
-                    // Aquí deberías adaptar tu lógica actual de corte de imágenes
-                    // El código para cortar imágenes va aquí
+                    
                 }
             });
         }
@@ -430,9 +563,7 @@ namespace AsuncionDesktop.Presentation.Forms
                         }
                         string segmentPath = System.IO.Path.Combine("outputDirectory", $"{name}_s_{Y}.jpeg");
                         segmentImage.Save(segmentPath, System.Drawing.Imaging.ImageFormat.Jpeg);
-                        //string extractedText = ExtractTextFromImage(segmentPath);
-                        //string extractedNumbers = ExtractNumbers(extractedText);
-                       // Console.WriteLine($"Segment {Y} Text: {extractedNumbers}");
+                        
                     }
                     this.Invoke(new Action(() =>
                     {
@@ -701,10 +832,10 @@ namespace AsuncionDesktop.Presentation.Forms
 
                         using (Bitmap candidateBitmap = bitmap.Clone(cropArea, bitmap.PixelFormat))
                         {
-                            string folderPath = Path.Combine(actaPath, $"{pagina.ActaId}");
+                            string folderPath = Path.Combine(cortePath, $"{pagina.ActaId}");
                             Directory.CreateDirectory(folderPath);
 
-                            string outputFilename = Path.Combine(actaPath, $"{pagina.ActaId}/{pagina.ActaId}_{pagina.candidatos[i].Id}.tif");
+                            string outputFilename = Path.Combine(cortePath, $"{pagina.ActaId}/{pagina.ActaId}_{pagina.candidatos[i].Id}.tif");
                             candidateBitmap.Save(outputFilename, System.Drawing.Imaging.ImageFormat.Tiff);
 
                             Candidato candidatoToUpdate = pagina.candidatos.FirstOrDefault(c => c.Id == pagina.candidatos[i].Id);
@@ -775,9 +906,66 @@ namespace AsuncionDesktop.Presentation.Forms
             return acta.paginas.Count == maxPages && acta.paginas.All(p => p.Numero >= 1 && p.Numero <= maxPages);
         }
 
+        private string FormulateNewFileName(Acta acta)
+        {
+            // Asumiendo que los campos Pagina y Paginas están correctamente asignados en el objeto acta
+            string formattedPageNumber = acta.Pagina.ToString().PadLeft(2, '0');
+            string formattedTotalPages = acta.Paginas.ToString().PadLeft(2, '0');
+
+            // Formatear el nombre del archivo con código del acta, número de página y total de páginas
+            return $"{acta.Codigo}_{formattedPageNumber}_{formattedTotalPages}.tif";
+        }
+        private void UpdateActaListView(Acta acta, string newPath)
+        {
+ 
+            string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(newPath);
+            // Crear un nuevo ListViewItem con el nombre del archivo
+            ListViewItem item = new ListViewItem(fileNameWithoutExtension);
+
+            this.Invoke(new Action(() => {
+                lstPages.Items.Add(item);
+            }));
+        }
+
+
+        private void UpdateCounters()
+        {
+            string processedImagesPath = actaPath;
+            string originalImagesPath = imagenPath;
+
+            int totalProcessedImages = Directory.GetFiles(processedImagesPath, "*.tif").Length;
+            int totalOriginalImages = Directory.GetFiles(originalImagesPath, "*.tif").Length;
+             int totalActas = lstActas.Items.Count; // Suponiendo que cada item en lstPages es una acta
+
+            this.Invoke(new Action(() => {
+                lblTotalPaginas.Text = totalProcessedImages.ToString();
+                lblTotalImagenes.Text = totalOriginalImages.ToString();
+                lblTotalActas.Text = totalActas.ToString();
+            }));
+        }
+        private void RemoveItemFromListView(ListView listView, string fullPath)
+        {
+            // Invocar en el hilo UI
+            listView.Invoke((MethodInvoker)delegate
+            {
+                var itemToRemove = listView.Items.Cast<ListViewItem>()
+                    .FirstOrDefault(item => Path.Combine(imagenPath, item.Text) == fullPath);
+
+                if (itemToRemove != null)
+                {
+                    listView.Items.Remove(itemToRemove);
+                }
+            });
+        }
+
 
         #endregion
 
+        private void cmdScan_Click(object sender, EventArgs e)
+        {
 
+        }
+
+        
     }
 }
