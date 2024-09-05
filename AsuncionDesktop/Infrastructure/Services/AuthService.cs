@@ -24,7 +24,7 @@ namespace AsuncionDesktop.Infrastructure.Services
             {
                 Query = @"
                 query Authlogin($password: String!, $username: String!) {
-                    authlogin(password: $password, username: $username) {
+                    authLogin(password: $password, username: $username) {
                         provincia
                         token
                         username
