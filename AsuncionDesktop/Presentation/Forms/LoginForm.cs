@@ -1,4 +1,5 @@
 ﻿using AsuncionDesktop.Application.UseCases;
+using AsuncionDesktop.Domain.Entities;
 using AsuncionDesktop.Infrastructure.Services;
 using System;
 using System.Collections.Generic;
@@ -34,7 +35,10 @@ namespace AsuncionDesktop.Presentation.Forms
 
                 if (authResponse != null)
                 {
-                    MessageBox.Show($"Login successful! Token: {authResponse.Token}");
+                    Session.Token = authResponse.Token;
+                    Session.Username = authResponse.Username;
+                    Session.Provincia = authResponse.Provincia;
+
                     this.Hide();
                     MainForm mainForm = new MainForm();
                     mainForm.Show();

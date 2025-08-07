@@ -9,12 +9,6 @@ namespace AsuncionDesktop.Domain.Interfaces
 {
     public interface IScannerService
     {
-        Image ScanDocument();
-    }
-
-    // IQRCodeService.cs
-    public interface IQRCodeService
-    {
-        string DecodeQRCode(Image image);
+        Image ScanDocument(string filePath);  
     }
 }

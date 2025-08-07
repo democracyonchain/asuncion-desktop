@@ -1,4 +1,5 @@
 ﻿using AsuncionDesktop.Domain.Entities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -14,9 +15,12 @@ namespace AsuncionDesktop.Domain.Entities
         public int Numero { get; set; }
         public string Nombre{ get; set; }
         public string Path{ get; set; }
+        public string Url { get; set; }
+        public string Hash { get; set; }
         public List<Candidato> candidatos { get; set; }
 
         public int Estado { get; set; }
+        [JsonIgnore]
         public Point Referencia { get; set; }
         public Pagina()
         {

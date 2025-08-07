@@ -42,15 +42,14 @@
             this.txtUser.Name = "txtUser";
             this.txtUser.Size = new System.Drawing.Size(188, 26);
             this.txtUser.TabIndex = 0;
-            this.txtUser.Text = "0603612466";
             // 
             // txtPassword
             // 
             this.txtPassword.Location = new System.Drawing.Point(174, 81);
             this.txtPassword.Name = "txtPassword";
+            this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(188, 26);
             this.txtPassword.TabIndex = 1;
-            this.txtPassword.Text = "Escaneo2024";
             // 
             // cmdLogin
             // 

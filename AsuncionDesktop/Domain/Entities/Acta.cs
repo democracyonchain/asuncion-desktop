@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,11 +17,17 @@ namespace AsuncionDesktop.Domain.Entities
         public int Zona { get; set;}
         public int Junta { get; set;}
         public string Sexo { get; set; }
+        public int Dignidad { get; set; }
         public int Pagina { get; set; }
+        [JsonProperty("numero_paginas")]
         public int Paginas { get; set; }
         public string Path { get; set; }
         public List<Pagina> paginas { get; set; }
         public int Estado { get; set; }
+        public int Sufragantes { get; set; }
+        public int Blancos { get; set; }
+        public int Nulos { get; set; }
+        public string TxIcr { get; set; }
         public Acta()
         {
             paginas = new List<Pagina>();

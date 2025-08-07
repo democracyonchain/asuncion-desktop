@@ -1,1 +1,49 @@
+# Visual Studio
 .vs/
+.vscode/
+*.user
+*.suo
+
+# Build results
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+*.cache
+
+# NuGet packages (opcional si usas "packages/" local)
+packages/
+*.nupkg
+*.snupkg
+
+# Logs
+*.log
+
+# Secrets
+AsuncionDesktop/Recursos/credenciales.json
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Protobuf & generated gRPC
+*.proto~
+*.pb.cc
+*.pb.h
+*.pb.go
+*.pb.rb
+*.pb.py
+*.pb.swift
+*.pb.js
+
+# Rider IDE (si lo usas)
+.idea/
+
+# Others (backup files, temp)
+*.tmp
+*.bak
+*.swp
+"AsuncionDesktop/bin/Debug/Recursos/credenciales.json" 
+"*/credenciales.json" 
+"credenciales.json" 
