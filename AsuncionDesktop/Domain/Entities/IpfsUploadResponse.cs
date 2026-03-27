@@ -12,6 +12,6 @@ namespace AsuncionDesktop.Domain.Entities
         public string ipfs_hash { get; set; }
         public string size { get; set; }
 
-        public string GetIpfsPath() => $"ipfs://{ipfs_hash}";
+        public string GetIpfsPath() => $"{ipfs_hash}";
     }
 }

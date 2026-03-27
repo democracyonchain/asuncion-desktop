@@ -20,11 +20,12 @@ namespace AsuncionDesktop.Infrastructure.Services
             _baseUrl = System.Configuration.ConfigurationManager.AppSettings["ApiBaseUrlCardano"];
         }
 
-        public async Task<string> EnviarActaAsync(Acta acta)
+        public async Task<string> EnviarActaAsync(ActaIngreso acta)
         {
             try
             {
                 var url = $"{_baseUrl}Acta/{acta.Codigo}/escaneo";
+
 
                 var json = JsonConvert.SerializeObject(acta);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");

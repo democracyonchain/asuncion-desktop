@@ -1,5 +1,6 @@
 ﻿using AsuncionDesktop.Domain.Entities;
 using AsuncionDesktop.Infrastructure.Services;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,11 +25,17 @@ namespace AsuncionDesktop.Application.UseCases
             {
                 if (string.IsNullOrEmpty(pagina.Path))
                     return false;
-
-                var resultPagina = await _ipfsService.UploadFileAsync(pagina.Path);
-                if (string.IsNullOrEmpty(resultPagina.Hash))
-                    return false;
-                pagina.Url = $"ipfs://{resultPagina.Hash}";
+                try {
+                    var resultPagina = await _ipfsService.UploadFileAsync(pagina.Path);
+                    if (string.IsNullOrEmpty(resultPagina.Hash))
+                        return false;
+                    pagina.Url = $"{resultPagina.Hash}";
+                }
+                catch (Exception e)
+                {
+                    pagina.Url = $"ipfs://error";
+                }
+                
             }
 
 
@@ -38,7 +45,7 @@ namespace AsuncionDesktop.Application.UseCases
 
                 var resultCorte = await _ipfsService.UploadFileAsync(candidato.Path);
                 if (string.IsNullOrEmpty(resultCorte.Hash)) return false;
-                candidato.Url = $"ipfs://{resultCorte.Hash}";                
+                candidato.Url = $"{resultCorte.Hash}";                
             }
 
             return true;

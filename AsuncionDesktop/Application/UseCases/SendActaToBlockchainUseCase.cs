@@ -18,7 +18,7 @@ namespace AsuncionDesktop.Application.UseCases
             _apiService = apiService;
         }
 
-        public async Task<string> ExecuteAsync(Acta acta)
+        public async Task<string> ExecuteAsync(ActaIngreso acta)
         {
             return await _apiService.EnviarActaAsync(acta);
         }

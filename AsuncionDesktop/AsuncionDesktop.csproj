@@ -174,13 +174,16 @@
     <Compile Include="Application\UseCases\UploadActaToIpfsUseCase.cs" />
     <Compile Include="Domain\Entities\Acta.cs" />
     <Compile Include="Domain\Entities\ActaDTO.cs" />
+    <Compile Include="Domain\Entities\ActaIngreso.cs" />
     <Compile Include="Domain\Entities\AuthResponse.cs" />
     <Compile Include="Domain\Entities\BlockchainResponse.cs" />
     <Compile Include="Domain\Entities\Candidato.cs" />
+    <Compile Include="Domain\Entities\CandidatoIngreso.cs" />
     <Compile Include="Domain\Entities\ImagenActaDTO.cs" />
     <Compile Include="Domain\Entities\ImagenSegmentoDTO.cs" />
     <Compile Include="Domain\Entities\IpfsUploadResponse.cs" />
     <Compile Include="Domain\Entities\Pagina.cs" />
+    <Compile Include="Domain\Entities\PaginaIngreso.cs" />
     <Compile Include="Domain\Entities\ScannedDocument.cs" />
     <Compile Include="Domain\Entities\Session.cs" />
     <Compile Include="Domain\Entities\VotoDigitalizadoDTO.cs" />

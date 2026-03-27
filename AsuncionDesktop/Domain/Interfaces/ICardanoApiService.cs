@@ -9,6 +9,6 @@ namespace AsuncionDesktop.Domain.Interfaces
 {
     public interface ICardanoApiService
     {
-        Task<string> EnviarActaAsync(Acta acta);
+        Task<string> EnviarActaAsync(ActaIngreso acta);
     }
 }

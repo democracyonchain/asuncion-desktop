@@ -120,7 +120,7 @@ private (Acta acta, Pagina pagina) ProcessActaData(string data, string imagePath
 
         string[] headerParts = headerRaw.Split(',');
 
-        int codigo = int.Parse(headerParts[1]);
+        int codigo = int.Parse(headerParts[0]);
         int numeroPagina = int.Parse(headerParts[9]);
 
         Acta acta = new Acta

@@ -14,7 +14,7 @@ namespace AsuncionDesktop.Domain.Entities
         public int sufragantes { get; set; }
         public int votosicr { get; set; }
         public string txicr { get; set; }
-        public ImagenActaDTO imagenacta { get; set; }
+        public List<ImagenActaDTO> imagenacta { get; set; }
         public List<ImagenSegmentoDTO> imagensegmento { get; set; }
         public List<VotoReconocidoDTO> votos { get; set; }
     }

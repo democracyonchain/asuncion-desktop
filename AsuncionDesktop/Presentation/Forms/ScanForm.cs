@@ -293,6 +293,7 @@ namespace AsuncionDesktop.Presentation.Forms
 
         private async void cmdProcess_Click(object sender, EventArgs e)
         {
+            /*
             try
             {
                 if (actas == null || actas.Count == 0)
@@ -332,7 +333,14 @@ namespace AsuncionDesktop.Presentation.Forms
                 string txIcr = "";
                 try
                 {
-                    string respuesta = await useCase.ExecuteAsync(acta);
+                    ActaIngreso actaIngreso = ActaIngreso.FromActa(
+                    acta,
+                    provincia: "CHIMBORAZO",
+                    canton: "ALAUSI",
+                    parroquia: "ALAUSI",
+                    zona: "ALAUSI");
+                    string respuesta = await useCase.ExecuteAsync(actaIngreso);
+                    
                     txIcr = respuesta;
                 }
                 catch (Exception ex)
@@ -360,6 +368,140 @@ namespace AsuncionDesktop.Presentation.Forms
             }
             catch (Exception ex)
             {
+                MessageBox.Show($"❌ Error durante el proceso:\n{ex.Message}");
+            }
+        */
+            try
+            {
+                if (actas == null || actas.Count == 0)
+                {
+                    MessageBox.Show("No hay actas procesadas.");
+                    return;
+                }
+
+                // Si quieres enviar todas tal cual:
+                var actasAEnviar = actas.ToList();
+
+                // (Opcional recomendado) si solo quieres enviar actas completas:
+                // var actasAEnviar = actas
+                //     .Where(a => a.paginas != null && a.paginas.Count > 0)
+                //     .ToList();
+
+                if (actasAEnviar.Count == 0)
+                {
+                    MessageBox.Show("No hay actas válidas para enviar.");
+                    return;
+                }
+
+                // UI: progreso
+                pbProgreso.Visible = true;
+                pbProgreso.Minimum = 0;
+                pbProgreso.Maximum = actasAEnviar.Count;
+                pbProgreso.Value = 0;
+
+                // Para evitar recrear servicios en cada iteración
+                var ipfsService = new IpfsService();
+                var uploadUseCase = new UploadActaToIpfsUseCase(ipfsService);
+
+                var apiService = new CardanoApiService();
+                var sendUseCase = new SendActaToBlockchainUseCase(apiService);
+
+                var token = Session.Token;
+                var digitalizacionService = new DigitalizacionService(token);
+
+                int ok = 0;
+                int fail = 0;
+
+                // Si quieres mostrar avance textual, usa un label: lblEstado (opcional)
+                // Invoke(new Action(() => lblEstado.Text = "Iniciando envío..."));
+
+                foreach (var acta in actasAEnviar)
+                {
+                    try
+                    {
+                        // (Opcional) Identificador para logs / mensajes
+                        var actaId = acta?.Codigo.ToString() ?? "SIN_CODIGO";
+
+                        // 1) Normalizar / completar datos
+                        acta.Paginas = acta.paginas?.Count ?? 0;
+
+                        var candidatos = acta.paginas?
+                            .SelectMany(p => p.candidatos ?? new List<Candidato>())
+                            .ToList() ?? new List<Candidato>();
+
+                        acta.Sufragantes = candidatos.FirstOrDefault(c => c.Id == 111)?.VotosIa ?? 0;
+                        acta.Blancos = candidatos.FirstOrDefault(c => c.Id == 222)?.VotosIa ?? 0;
+                        acta.Nulos = candidatos.FirstOrDefault(c => c.Id == 333)?.VotosIa ?? 0;
+
+                        // (Opcional) UI: estado
+                        // Invoke(new Action(() => lblEstado.Text = $"Procesando acta {actaId} ({pbProgreso.Value + 1}/{pbProgreso.Maximum})..."));
+
+                        // 2) Subir imágenes a IPFS (por acta)
+                        bool ipfsOk = await uploadUseCase.ExecuteAsync(acta);
+                        if (!ipfsOk)
+                            throw new Exception("Falló la carga de imágenes a IPFS.");
+
+                        // 3) Enviar a blockchain
+                        var actaIngreso = ActaIngreso.FromActa(
+                            acta,
+                            provincia: "CHIMBORAZO",
+                            canton: "ALAUSI",
+                            parroquia: "ALAUSI",
+                            zona: "ALAUSI"
+                        );
+
+                        string txIcr = await sendUseCase.ExecuteAsync(actaIngreso);
+
+                        if (string.IsNullOrWhiteSpace(txIcr))
+                            throw new Exception("La respuesta de la transacción está vacía.");
+
+                        if (txIcr.StartsWith("Error:", StringComparison.OrdinalIgnoreCase))
+                            throw new Exception(txIcr);
+
+                        // 4) Mapear DTO backend tradicional
+                        var dtoActa = MapToActaUpdateDto(acta);
+                        dtoActa.txicr = txIcr;
+
+                        // 5) Enviar al backend tradicional
+                        var resultado = await digitalizacionService.EnviarActaDigitalizadaAsync(dtoActa);
+
+                        ok++;
+
+                        // (Opcional) si quieres feedback por acta:
+                        // Invoke(new Action(() => lstLog.Items.Add($"✅ Acta {actaId}: {resultado}")));
+                    }
+                    catch (Exception exActa)
+                    {
+                        fail++;
+
+                        // (Opcional) log por acta, sin detener el lote
+                        // Invoke(new Action(() => lstLog.Items.Add($"❌ Acta {(acta?.Codigo.ToString() ?? "SIN_CODIGO")}: {exActa.Message}")));
+
+                        // Si quieres mostrar MessageBox por cada fallo (puede ser molesto en lote grande):
+                        // MessageBox.Show($"❌ Error en acta {acta?.Codigo}: {exActa.Message}");
+                    }
+                    finally
+                    {
+                        // UI: progreso seguro
+                        Invoke(new Action(() =>
+                        {
+                            if (pbProgreso.Value < pbProgreso.Maximum)
+                                pbProgreso.Value++;
+                        }));
+
+                        // Pequeña pausa opcional para que pinte UI en lotes grandes
+                        await Task.Delay(5);
+                    }
+                }
+
+                pbProgreso.Visible = false;
+
+                MessageBox.Show($"Envío terminado.\n✅ OK: {ok}\n❌ Fallidas: {fail}");
+                // (Opcional) Invoke(new Action(() => lblEstado.Text = $"Terminado. OK: {ok}, Fallidas: {fail}"));
+            }
+            catch (Exception ex)
+            {
+                pbProgreso.Visible = false;
                 MessageBox.Show($"❌ Error durante el proceso:\n{ex.Message}");
             }
         }
@@ -642,7 +784,7 @@ namespace AsuncionDesktop.Presentation.Forms
 
         private ActaDTO MapToActaUpdateDto(Acta acta)
         {
-            var pagina = acta.paginas.FirstOrDefault();
+            //var pagina = acta.paginas.FirstOrDefault();
 
             return new ActaDTO
             {
@@ -652,16 +794,19 @@ namespace AsuncionDesktop.Presentation.Forms
                 sufragantes = acta.Sufragantes,
                 votosicr = acta.Sufragantes,
                 txicr=acta.TxIcr, 
-                imagenacta = new ImagenActaDTO
+                imagenacta = acta.paginas
+                .Select(pagina =>
+                new ImagenActaDTO
                 {
                     imagen = pagina != null && File.Exists(pagina.Path)
                     ? File.ReadAllBytes(pagina.Path)
                     : null, // o la URL/IPFS si ya subiste
                     hash = pagina?.Hash ?? "",
                     nombre = pagina?.Nombre??"",
-                    pagina = pagina?.Numero.ToString() ?? "",
-                    pathipfs = pagina?.Path ?? ""
-                },
+                    pagina = int.Parse( pagina?.Numero.ToString()),
+                    pathipfs = pagina?.Url ?? ""
+                })
+                .ToList(),
                 imagensegmento = acta.paginas
                     .SelectMany(p => p.candidatos)
                     .Where(c => c.Id < 100)
